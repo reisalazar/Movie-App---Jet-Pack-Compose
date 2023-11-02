@@ -1,6 +1,5 @@
 package com.example.movieapp.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.movieapp.model.Movie
+import com.example.movieapp.model.getmovies
 import com.example.movieapp.navigation.MovieScreens
+import com.example.movieapp.widjets.MovieRow
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -35,16 +37,7 @@ fun HomeScreen(navController: NavController) {
 @Composable
 fun MainContent(
     navController: NavController,
-    movieList: List<String> = listOf(
-        "Avatar",
-        "300",
-        "HarryPotter",
-        "Life",
-        "John Wick",
-        "Chef",
-        "Happy Feet"
-    )
-) {
+    movieList: List<Movie> = getmovies()) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = movieList) {
@@ -87,33 +80,3 @@ fun MainContent(
     }
 }
 
-@Composable
-fun MovieRow(movie: String, onItemCLick: (String) -> Unit = {}) {
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .height(130.dp)
-            .clickable {
-                onItemCLick(movie)
-            },
-        shape = RoundedCornerShape(corner = CornerSize(12.dp)),
-        elevation = 6.dp
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Surface(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(100.dp), shape = RectangleShape
-            ) {
-                Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Movie image")
-
-            }
-
-            Text(text = movie)
-        }
-    }
-}
